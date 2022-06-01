@@ -34,7 +34,7 @@ average_tem = pd.read_csv("https://raw.githubusercontent.com/soniasocadagui/mdah
 # Production
 
 production_path = "https://raw.githubusercontent.com/soniasocadagui/mdaheroku/main/dat/production_indices.csv"
-production_data = pd.read_csv(production_path, sep = ";")
+production_data = pd.read_csv(production_path, sep = ",")
 meanProduction = production_data[production_data['Item']=="Food"]['Value'].mean()
 
 
