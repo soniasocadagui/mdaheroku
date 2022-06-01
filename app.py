@@ -24,9 +24,7 @@ number_disasters = disaster_data[disaster_data['Disaster Type'] == 'Extreme temp
 
 
 # temperatures
-path = "C:/Users/Sonita/Documents/KU_Leuven/Subjects/2022-1/Modern Data Analytics/4. Project/App/heroku/dat/"
-
-temperature_path = path + "weather_data.csv"
+temperature_path = "https://raw.githubusercontent.com/soniasocadagui/mdaheroku/main/dat/weather_data.csv"
 temperature_data = pd.read_csv(temperature_path, sep = ";")
 temperature_data = pd.melt(temperature_data, id_vars="utc_timestamp")
 
