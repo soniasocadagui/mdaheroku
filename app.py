@@ -1,6 +1,4 @@
-from turtle import color
 import dash
-import json
 import requests
 
 from dash import html
