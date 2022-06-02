@@ -47,11 +47,10 @@ url = "https://raw.githubusercontent.com/soniasocadagui/mdaheroku/main/dat/low_r
 f = requests.get(url)
 countries = f.json()
 
-
 # creating the app
 
 
-app = dash.Dash(__name__,)
+app = dash.Dash(__name__, )
 server = app.server
 
 app.layout = html.Div([
@@ -60,10 +59,10 @@ app.layout = html.Div([
         # Logo and title
         html.Div([
             html.Img(src=app.get_asset_url('heat-logo-1.jpg'),
-            id = 'heat-image',
-            style={'height': '100px',
-            'width': 'auto',
-            'margin-bottom': '25px'})
+                     id='heat-image',
+                     style={'height': '100px',
+                            'width': 'auto',
+                            'margin-bottom': '25px'})
 
         ], className='one-third column'),
         html.Div([
@@ -72,79 +71,80 @@ app.layout = html.Div([
                 html.H5('', style={'margin-bottom': '0px', 'color': 'white'})
             ])
 
-        ], className='one-half column', id = 'title')
-        
+        ], className='one-half column', id='title')
 
-    ], id = 'header', className='row flex-display', style={'margin-bottom': '25px'}),
+    ], id='header', className='row flex-display', style={'margin-bottom': '25px'}),
 
     # First panel
+    html.Div([
+
         html.Div([
-        
-            html.Div([
-                html.P('Place the cursor over the country:', className='fix_label', style={'color': 'white'}),
-                dcc.Graph(
-                    id='temp_map',
-                    hoverData={'points': [{'customdata': 'Belgium'}]}
-                )
-            ], className='create_container seven columns'),#, style={'width': '60%', 'display': 'inline-block', 'padding': '0 20'}),
-        
-            html.Div([
-                html.P('Select the product:', className='fix_label', style={'color': 'white'}),
-                dcc.Dropdown(id="slct_item",
-                        options=[
-                            {"label": "Agriculture", "value": 'Agriculture'},
-                            {"label": "Cereals", "value": 'Cereals'},
-                            {"label": "Crops", "value": 'Crops'},
-                            {"label": "Food", "value": 'Food'},
-                            {"label": "Livestock", "value": 'Livestock'},
-                            {"label": "Meat Indigenous", "value": 'Meat Indigenous'},
-                            {"label": "Milk", "value": 'Milk'},
-                            {"label": "Non-Food", "value": 'Non-Food'},
-                            {"label": "Oilcrops", "value": 'Oilcrops'},
-                            {"label": "Roots and Tubers", "value": 'Roots and Tubers'},
-                            {"label": "Sugar Crops", "value": 'Sugar Crops'},
-                            {"label": "Vegetables and Fruits", "value": 'Vegetables and Fruits'}],
-                        multi=False,
-                        value="Food",
-                        style={'width': "60%"}
-                        ),
-                
-                dcc.Graph(id='x-time-series'),
-                dcc.Graph(id='y-time-series'),
-                
-            ], className='create_container five columns')# style={'display': 'inline-block', 'width': '40%'})
-        
+            html.P('Place the cursor over the country:', className='fix_label', style={'color': 'white'}),
+            dcc.Graph(
+                id='temp_map',
+                hoverData={'points': [{'customdata': 'Belgium'}]}
+            )
+        ], className='create_container seven columns'),
+        # , style={'width': '60%', 'display': 'inline-block', 'padding': '0 20'}),
+
+        html.Div([
+            html.P('Select the product:', className='fix_label', style={'color': 'white'}),
+            dcc.Dropdown(id="slct_item",
+                         options=[
+                             {"label": "Agriculture", "value": 'Agriculture'},
+                             {"label": "Cereals", "value": 'Cereals'},
+                             {"label": "Crops", "value": 'Crops'},
+                             {"label": "Food", "value": 'Food'},
+                             {"label": "Livestock", "value": 'Livestock'},
+                             {"label": "Meat Indigenous", "value": 'Meat Indigenous'},
+                             {"label": "Milk", "value": 'Milk'},
+                             {"label": "Non-Food", "value": 'Non-Food'},
+                             {"label": "Oilcrops", "value": 'Oilcrops'},
+                             {"label": "Roots and Tubers", "value": 'Roots and Tubers'},
+                             {"label": "Sugar Crops", "value": 'Sugar Crops'},
+                             {"label": "Vegetables and Fruits", "value": 'Vegetables and Fruits'}],
+                         multi=False,
+                         value="Food",
+                         style={'width': "60%"}
+                         ),
+
+            dcc.Graph(id='x-time-series'),
+            dcc.Graph(id='y-time-series'),
+
+        ], className='create_container five columns')  # style={'display': 'inline-block', 'width': '40%'})
+
     ]),
 
-        html.Div([
-            html.Img(src=app.get_asset_url('heat-logo-4.jpg'),
-            id = 'heat-image2',
-            style={'height': '145px',
-            'width': 'auto',
-            'margin-bottom': '25px'})
-        ]),
+    html.Div([
+        html.Img(src=app.get_asset_url('heat-logo-4.jpg'),
+                 id='heat-image2',
+                 style={'height': '145px',
+                        'width': 'auto',
+                        'margin-bottom': '25px'})
+    ]),
 
-        # Second panel
+    # Second panel
     html.Div([
         html.Div([
             html.P('Select Country:', className='fix_label', style={'color': 'white'}),
-            dcc.Dropdown(id = 'w_countries',
-                         multi = False,
-                         searchable = True,
-                         value = 'Belgium',
+            dcc.Dropdown(id='w_countries',
+                         multi=False,
+                         searchable=True,
+                         value='Belgium',
                          placeholder='Select Country',
                          options=[{'label': c, 'value': c}
-                                  for c in (disaster_data["Country"].unique())], className='dcc_compon')         
+                                  for c in (disaster_data["Country"].unique())], className='dcc_compon')
 
         ], className='create_container three columns'),
-    
+
         html.Div([
-            dcc.Graph(id = 'pie_chart', config={'displayModeBar': 'hover'})
-            ], className='create_container four columns'),
-        
-        html.Div([
-            dcc.Graph(id = 'heat_chart', config={'displayModeBar': 'hover'})
-            ], className='create_container five columns')
+            dcc.Graph(id='pie_chart', config={'displayModeBar': 'hover'})
+        ], className='create_container four columns')
+        # ,
+
+        #  html.Div([
+        #     dcc.Graph(id = 'heat_chart', config={'displayModeBar': 'hover'})
+        #    ], className='create_container five columns')
 
     ], className='row flex-display'),
     # Counting
@@ -152,57 +152,55 @@ app.layout = html.Div([
         html.Div([
             html.H6(children='Number Heat Waves',
                     style={'textAlign': 'center',
-                            'color': 'white'}),
+                           'color': 'white'}),
             html.P(f"{heatWaves_data.count().iloc[0]:,.0f}",
-                    style={'textAlign': 'center',
-                            'color': '#DC143C',
-                            'fontSize': 40})
-        
+                   style={'textAlign': 'center',
+                          'color': '#DC143C',
+                          'fontSize': 40})
+
         ], className='card_container three columns'),
         html.Div([
             html.H6(children='Minimum temperature',
                     style={'textAlign': 'center',
-                            'color': 'white'}),
-            html.P(f"{temperature_data[temperature_data['value'] == temperature_data['value'].min()]['value'].reset_index()['value'].iloc[0]:,.1f}",
+                           'color': 'white'}),
+            html.P(
+                f"{temperature_data[temperature_data['value'] == temperature_data['value'].min()]['value'].reset_index()['value'].iloc[0]:,.1f}",
                 style={'textAlign': 'center',
                        'color': 'blue',
                        'fontSize': 40})
-        
+
         ], className='card_container three columns'),
         html.Div([
             html.H6(children='Maximum temperature',
                     style={'textAlign': 'center',
-                            'color': 'white'}),
-             html.P(f"{temperature_data[temperature_data['value'] == temperature_data['value'].max()]['value'].reset_index()['value'].iloc[0]:,.1f}",
+                           'color': 'white'}),
+            html.P(
+                f"{temperature_data[temperature_data['value'] == temperature_data['value'].max()]['value'].reset_index()['value'].iloc[0]:,.1f}",
                 style={'textAlign': 'center',
                        'color': 'red',
                        'fontSize': 40})
-        
+
         ], className='card_container three columns'),
         html.Div([
             html.H6(children='Average gross Per capita PIN',
                     style={'textAlign': 'center',
-                            'color': 'white'}),
+                           'color': 'white'}),
             html.P(f"{meanProduction:,.1f}",
-                    style={'textAlign': 'center',
-                            'color': 'green',
-                            'fontSize': 40})
-        
-        ], className='card_container three columns')
-        
-    ],className='row flex display')    
+                   style={'textAlign': 'center',
+                          'color': 'green',
+                          'fontSize': 40})
 
-    
+        ], className='card_container three columns')
+
+    ], className='row flex display')
 
 ], id='mainContainer', style={'display': 'flex', 'flex-direction': 'column'})
 
 
 @app.callback(Output('pie_chart', 'figure'),
               [Input('w_countries', 'value')])
-
-
 def disasters(w_countries):
-    number_disastersA = number_disasters.pivot(index='Country',columns='Disaster Subtype',values='Year').reset_index()
+    number_disastersA = number_disasters.pivot(index='Country', columns='Disaster Subtype', values='Year').reset_index()
 
     if number_disastersA[number_disastersA['Country'] == w_countries].shape[0] == 0:
         value_heat = 0
@@ -223,17 +221,17 @@ def disasters(w_countries):
             hole=.5
         )],
 
-        'layout':go.Layout(
+        'layout': go.Layout(
             title={'text': 'Number of Extreme temperature disasters: ' + (w_countries),
-                   'y':0.93,
+                   'y': 0.93,
                    'x': 0.5,
                    'xanchor': 'center',
                    'yanchor': 'top'},
             titlefont={'color': 'white',
-                       'size':15},
+                       'size': 15},
             hovermode='closest',
-            paper_bgcolor = '#8e9fbc', 
-            plot_bgcolor = '#8e9fbc',
+            paper_bgcolor='#8e9fbc',
+            plot_bgcolor='#8e9fbc',
             legend={'orientation': 'h',
                     'bgcolor': '#8e9fbc',
                     'xanchor': 'center', 'x': 0.5, 'y': -0.7}
@@ -241,40 +239,19 @@ def disasters(w_countries):
         )
     }
 
-
-@app.callback(Output('heat_chart', 'figure'),
-              [Input('w_countries', 'value')])
-
-
-def temperature_heat(w_countries):
-    average_country = average_tem[average_tem['variable'== w_countries]]
-    fig = go.Figure(go.Heatmap(
-                    z=average_country['value'],
-                    x=average_country['Date'],
-                    y=average_country['Time'],
-                    colorscale='viridis'))
-
-    fig.update_layout(
-        title='Average variation temperature per hour',
-        xaxis_nticks=100)
-
-    return fig
-
 @app.callback(
     Output('temp_map', 'figure'),
     Input('slct_item', 'value'))
-
 def update_figure(selected_item):
-    
     cols = ['country', 'year', 'max_temperature_change', 'code', 'population', 'continent']
-    dff = df_total.loc[:,cols].drop_duplicates().reset_index(drop=True)
+    dff = df_total.loc[:, cols].drop_duplicates().reset_index(drop=True)
 
     fig = px.choropleth_mapbox(dff,
                                geojson=countries,
                                featureidkey="properties.admin",
                                color="max_temperature_change",
                                color_continuous_scale="Viridis",
-                               range_color=(0, 9),             
+                               range_color=(0, 9),
                                animation_frame="year",
                                locations="country",
                                hover_name="country",
@@ -284,81 +261,78 @@ def update_figure(selected_item):
                                zoom=0.3,
                                width=900,
                                height=580,
-                               labels={'max_temperature_change':'Maximum temperature change'}
+                               labels={'max_temperature_change': 'Maximum temperature change'}
                                )
     fig.update_layout(title="Maximum Temperature Change by year")
     return fig
 
+
 ###############################################
 
 def create_time_series_x(df_dev, title):
-
     fig = px.line(df_dev, x='year', y='gross_pin', markers=True,
-                 labels={
-                     "year": "Year",
-                     "gross_pin": "Gross PIN"
-                 })
+                  labels={
+                      "year": "Year",
+                      "gross_pin": "Gross PIN"
+                  })
 
     fig.update_layout(title_text=title, title_x=0.5)
     fig.update_layout(height=270, margin={'l': 20, 'b': 30, 'r': 10, 't': 40})
 
     return fig
 
+
 @app.callback(
     Output('x-time-series', 'figure'),
     Input('temp_map', 'hoverData'),
     Input('slct_item', 'value'))
-
 def update_x_timeseries(hoverData, xaxis_column_name):
     country = hoverData['points'][0]['customdata']
-    
+
     if country != "Belgium":
         country_name = country[0]
     else:
-        country_name = country        
-    
+        country_name = country
+
     dff = df_total[df_total['country'] == country_name]
     dff = dff[dff['item'] == xaxis_column_name]
     title = '<b>{}</b>'.format(country_name)
     return create_time_series_x(dff, title)
 
+
 ###############################################
 
 def create_time_series_y(df_dev):
-
-    fig = px.line(df_dev, x='year', y='max_temperature_change', 
+    fig = px.line(df_dev, x='year', y='max_temperature_change',
                   markers=True,
                   labels={
-                     "year": "Year",
-                     "max_temperature_change": "Max. temperature change"})
+                      "year": "Year",
+                      "max_temperature_change": "Max. temperature change"})
 
     fig.update_layout(height=270, margin={'l': 20, 'b': 30, 'r': 10, 't': 40})
 
     return fig
 
+
 @app.callback(
     Output('y-time-series', 'figure'),
     Input('temp_map', 'hoverData'))
-
 def update_y_timeseries(hoverData):
     country = hoverData['points'][0]['customdata']
-    
+
     if country != "Belgium":
         country_name = country[0]
     else:
-        country_name = country        
-    
+        country_name = country
+
     cols = ['country', 'year', 'max_temperature_change', 'code', 'population', 'continent']
-    dff = df_total.loc[:,cols].drop_duplicates().reset_index(drop=True)
-    
+    dff = df_total.loc[:, cols].drop_duplicates().reset_index(drop=True)
+
     dff = dff[dff['country'] == country_name]
-    
+
     title = '<b>{}</b>'.format(country_name)
     return create_time_series_y(dff)
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port = (os.getenv("PORT", "1010")) )
-
-
-
+    app.run(debug=True, port=(os.getenv("PORT", "1010")))
