@@ -258,7 +258,7 @@ def update_figure(selected_item):
                                center={"lat": 45.866667, "lon": 10.566667},
                                mapbox_style="open-street-map",
                                zoom=0.1,
-                               width=620,
+                               width=610,
                                height=580,
                                labels={'max_temperature_change': 'Maximum temperature change'}
                                )
