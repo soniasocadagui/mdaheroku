@@ -242,7 +242,8 @@ def disasters(w_countries):
     Input('slct_item', 'value'))
 def update_figure(selected_item):
     cols = ['country', 'year', 'max_temperature_change', 'code', 'population', 'continent']
-    dff = df_total.loc[:, cols].drop_duplicates().reset_index(drop=True)
+    years = [1961, 1970, 1980, 1990, 2000, 2010, 2020]
+    dff = df_total.loc[df_total['year'].isin(years), cols].drop_duplicates().reset_index(drop=True)
 
     fig = px.choropleth_mapbox(dff,
                                geojson=countries,
@@ -256,12 +257,14 @@ def update_figure(selected_item):
                                hover_data=["country"],
                                center={"lat": 45.866667, "lon": 10.566667},
                                mapbox_style="open-street-map",
-                               zoom=0.3,
-                               width=900,
+                               zoom=0.1,
+                               width=680,
                                height=580,
                                labels={'max_temperature_change': 'Maximum temperature change'}
                                )
     fig.update_layout(title="Maximum Temperature Change by year")
+    fig.update_layout(coloraxis_colorbar_title_text='')
+
     return fig
 
 
