@@ -13,7 +13,7 @@ import os
 # Creating Data for my app
 
 # weatwaves
-disaster_path = 'https://raw.githubusercontent.com/soniasocadagui/mdaheroku/main/dat/disaster_data.xlsx'
+disaster_path = "https://raw.githubusercontent.com/soniasocadagui/mdaheroku/main/dat/disaster_data.xlsx"
 colslist = ['Year', 'Disaster Type','Disaster Subtype','Country','Start Month','Start Day','End Month','End Day']
 disaster_data = pd.read_excel(disaster_path, usecols = colslist)
 heatWaves_data = disaster_data[disaster_data['Disaster Subtype'] == 'Heat wave']
@@ -36,9 +36,23 @@ f = requests.get(url)
 countries = f.json()
 
 
+# predictions
+predict_path = "https://raw.githubusercontent.com/soniasocadagui/mdaheroku/main/dat/predictions.xlsx"
+prediction_data = pd.read_excel(predict_path)
+prediction_data = pd.melt(prediction_data, id_vars=["country", 'item'],var_name='year', value_name='gross_pin')
+prediction_data['type'] = 'Prediction'
+
+
+counttr = ["Austria", "Bulgaria", "France", "Germany", "Greece", "Hungary", "Italy", "Portugal", "Romania", "Spain", "Switzerland"]
+df_totalA = df_total.loc[df_total['country'].isin(counttr)].drop_duplicates().reset_index(drop=True)
+df_totalA = df_totalA.loc[df_totalA['year'] > 2000].drop_duplicates().reset_index(drop=True)
+df_totalA['type'] = 'Real'
+
+prediction_data = pd.concat([prediction_data,df_totalA])
+
+
 # creating the app
 app = dash.Dash(__name__,)
-server = app.server
 
 app.layout = html.Div([
     html.Div([
@@ -157,23 +171,35 @@ app.layout = html.Div([
             dcc.Dropdown(id = 'w_countries',
                          multi = False,
                          searchable = True,
-                         value = 'Belgium',
+                         value = 'Spain',
                          placeholder='Select Country',
                          options=[{'label': c, 'value': c}
-                                  for c in (disaster_data["Country"].unique())], className='dcc_compon')         
+                                  for c in (df_totalA["country"].unique())], className='dcc_compon')  ,
+            html.P('Select the product:', className='fix_label', style={'color': 'white'}),
+            dcc.Dropdown(id = 'w_product',
+                         multi = False,
+                         searchable = True,
+                         value = 'Agriculture',
+                         placeholder='Select product',
+                         options=[{'label': c, 'value': c}
+                                  for c in (df_totalA["item"].unique())], className='dcc_compon')       
 
         ], className='create_container three columns'),
     
         html.Div([
             dcc.Graph(id = 'pie_chart', config={'displayModeBar': 'hover'})
-            ], className='create_container four columns')
-         ,
-        
-         html.Div([
-             dcc.Graph(id = 'heat_chart', config={'displayModeBar': 'hover'})
-             ], className='create_container five columns')
+            ], className='create_container four columns'),
 
-    ], className='row flex-display')
+        html.Div([
+             dcc.Graph(id = 'heat_chart', config={'displayModeBar': 'hover'})
+             ], className='create_container five columns')       
+
+    ], className='row flex-display'),
+     html.Div([
+         html.Div([
+             dcc.Graph(id = 'pred_chart', config={'displayModeBar': 'hover'})
+             ], className='create_container twelve columns')
+    ], className='row flex-display'),
         
     ],className='row flex display')    
 
@@ -183,8 +209,7 @@ app.layout = html.Div([
 
 
 @app.callback(Output('pie_chart', 'figure'),
-              [Input('w_countries', 'value')])
-
+              Input('w_countries', 'value'))
 
 def disasters(w_countries):
     number_disastersA = number_disasters.pivot(index='Country',columns='Disaster Subtype',values='Year').reset_index()
@@ -230,7 +255,6 @@ def disasters(w_countries):
 @app.callback(Output('heat_chart', 'figure'),
               [Input('w_countries', 'value')])
 
-
 def temperature_heat(w_countries):
     average_country = weather_data[weather_data['Area'] == w_countries]
     fig = go.Figure(go.Heatmap(
@@ -243,6 +267,23 @@ def temperature_heat(w_countries):
         title='Average variation per quarter')
 
     return fig
+
+
+@app.callback(Output('pred_chart', 'figure'),
+              Input('w_countries', 'value'),
+              Input('w_product', 'value'))
+
+def prediction_chart(w_countries, w_product):
+    data_country = prediction_data.loc[prediction_data['country'] == w_countries].drop_duplicates().reset_index(drop=True)
+    data_item = data_country[data_country['item'] == w_product]
+
+    fig = px.line(data_item, x='year', y='gross_pin', color='type', markers=True)
+
+    fig.update_layout(
+        title='Comparison prediction real data')
+
+    return fig
+
 
 @app.callback(
     Output('temp_map', 'figure'),
@@ -341,5 +382,6 @@ def update_x_timeseries(hoverData, item_name):
     title = '<b>{}</b>'.format(country_name)
     return create_time_series_x(dff, title), create_time_series_y(dff)
 
+
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=False, port=(os.getenv("PORT", "1010")))
