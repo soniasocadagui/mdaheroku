@@ -203,7 +203,7 @@ app.layout = html.Div([
      html.Div([
          html.Div([
              dcc.Graph(id = 'pred_chart', config={'displayModeBar': 'hover'})
-             ], className='create_container twelve columns')
+             ], className='create_container eleven columns')
     ], className='row flex-display'),
         
     ],className='row flex display')    
@@ -318,7 +318,7 @@ def update_figure(selected_item):
                                center={"lat": 45.866667, "lon": 10.566667},
                                mapbox_style="open-street-map",
                                zoom=0.1,
-                               width=680,
+                               width=670,
                                height=580,
                                labels={'max_temperature_change': 'Maximum temperature change'}
                                )
