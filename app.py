@@ -55,6 +55,7 @@ counttr = ["Austria", "Bulgaria", "France", "Germany", "Greece", "Hungary", "Ita
 df_totalA = df_total.loc[df_total['country'].isin(counttr),
                          ['country', 'item', 'year', 'gross_pin']].drop_duplicates().reset_index(drop=True)
 df_totalA = df_totalA.loc[df_totalA['year'] > 2000].drop_duplicates().reset_index(drop=True)
+df_totalA = df_totalA.loc[df_totalA['year'] < 2019 ].drop_duplicates().reset_index(drop=True)
 df_totalA['type'] = 'Real'
 
 
@@ -360,7 +361,7 @@ def create_time_series_y(df_dev):
                      size_max=10,
                      labels={
                          "gross_pin": "Gross PIN",
-                         "max_temperature_change": "Max. Temperature"},
+                         "max_temperature_change": "Max. Temperature Change"},
                      color="max_temperature_change",
                      color_continuous_scale="Viridis",
                      hover_name="year"
