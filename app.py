@@ -103,30 +103,35 @@ app.layout = html.Div([
                    style={'textAlign': 'center',
                           'color': 'white'}
                    )
-        
         ], className='card_container three columns'),
         html.Div([
-            html.H6(children='Minimum temperature change',
+            html.H6(children='Minimum temperature change*',
                     style={'textAlign': 'center',
                             'color': 'white'}),
             html.P(f"{df_total[df_total['max_temperature_change'] == df_total['max_temperature_change'].min()]['max_temperature_change'].reset_index()['max_temperature_change'].iloc[0]:,.1f}",
                 style={'textAlign': 'center',
                        'color': 'blue',
-                       'fontSize': 40})
-        
+                       'fontSize': 40}),
+            html.P("*Ecuador (1971)",
+                   style={'textAlign': 'center',
+                          'color': 'white'}
+                   )
         ], className='card_container three columns'),
         html.Div([
-            html.H6(children='Maximum temperature change',
+            html.H6(children='Maximum temperature change*',
                     style={'textAlign': 'center',
                             'color': 'white'}),
              html.P(f"{df_total[df_total['max_temperature_change'] == df_total['max_temperature_change'].max()]['max_temperature_change'].reset_index()['max_temperature_change'].iloc[0]:,.1f}",
                 style={'textAlign': 'center',
                        'color': '#DC143C',
-                       'fontSize': 40})
-        
+                       'fontSize': 40}),
+            html.P("*Finland (1990)",
+                   style={'textAlign': 'center',
+                          'color': 'white'}
+                   )
         ], className='card_container three columns'),
         html.Div([
-            html.H6(children='Mean temperature change',
+            html.H6(children='Average temperature change',
                     style={'textAlign': 'center',
                             'color': 'white'}),
             html.P(f"{meanChange:,.1f}",
@@ -294,14 +299,14 @@ def prediction_chart(w_countries, w_product):
     data_item = data_country[data_country['item'] == w_product]
 
     fig = px.line(data_item, x='year', y='gross_pin', color='type', markers=True,
-                  color_discrete_sequence=["#5ec962", "#21918c"],
+                  color_discrete_sequence=["#440154", "#21918c"],
                   labels={
                       "year": "Year",
                       "gross_pin": "Gross PIN"
                   })
 
     fig.update_yaxes(range=[40, 160])
-    fig.update_layout(title=w_product+' - '+w_countries+': Prediction vs. Real data', legend_title="")
+    fig.update_layout(title=w_product+' - '+w_countries+': Prediction and Real data', legend_title="")
 
     return fig
 
