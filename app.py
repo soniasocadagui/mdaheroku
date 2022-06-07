@@ -81,13 +81,17 @@ app.layout = html.Div([
     # Counting
     html.Div([
         html.Div([
-            html.H6(children='Number Heat Waves',
+            html.H6(children='Number Heat Waves*',
                     style={'textAlign': 'center',
                             'color': 'white'}),
             html.P(f"{heatWaves_data.count().iloc[0]:,.0f}",
                     style={'textAlign': 'center',
                             'color': '#DC143C',
-                            'fontSize': 40})
+                            'fontSize': 40}),
+            html.P("*From 1951 to 2021 worldwide",
+                   style={'textAlign': 'center',
+                          'color': 'white'}
+                   )
         
         ], className='card_container three columns'),
         html.Div([
@@ -162,8 +166,8 @@ app.layout = html.Div([
         html.Div([
             html.H1(children='ANALYSIS BY COUNTRY',
                     style={'textAlign': 'center',
-                            'color': 'white'})
-        ]),
+                           'color': 'white'})
+        ], style={'display': 'inline-block', 'width': '100%'}),
 
         # Second panel
     html.Div([
@@ -278,10 +282,15 @@ def prediction_chart(w_countries, w_product):
     data_country = prediction_data.loc[prediction_data['country'] == w_countries].drop_duplicates().reset_index(drop=True)
     data_item = data_country[data_country['item'] == w_product]
 
-    fig = px.line(data_item, x='year', y='gross_pin', color='type', markers=True)
+    fig = px.line(data_item, x='year', y='gross_pin', color='type', markers=True,
+                  color_discrete_sequence=["#5ec962", "#21918c"],
+                  labels={
+                      "year": "Year",
+                      "gross_pin": "Gross PIN"
+                  })
 
-    fig.update_layout(
-        title='Comparison prediction real data')
+    fig.update_yaxes(range=[50, 160])
+    fig.update_layout(title='Prediction vs. Real data', legend_title="")
 
     return fig
 
@@ -309,7 +318,7 @@ def update_figure(selected_item):
                                center={"lat": 45.866667, "lon": 10.566667},
                                mapbox_style="open-street-map",
                                zoom=0.1,
-                               width=610,
+                               width=680,
                                height=580,
                                labels={'max_temperature_change': 'Maximum temperature change'}
                                )
