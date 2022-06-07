@@ -203,7 +203,7 @@ app.layout = html.Div([
      html.Div([
          html.Div([
              dcc.Graph(id = 'pred_chart', config={'displayModeBar': 'hover'})
-             ], className='create_container eleven columns')
+             ], className='create_container twelve columns')
     ], className='row flex-display'),
         
     ],className='row flex display')    
