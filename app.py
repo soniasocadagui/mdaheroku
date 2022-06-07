@@ -289,7 +289,7 @@ def prediction_chart(w_countries, w_product):
                       "gross_pin": "Gross PIN"
                   })
 
-    fig.update_yaxes(range=[50, 160])
+    fig.update_yaxes(range=[40, 160])
     fig.update_layout(title='Prediction vs. Real data', legend_title="")
 
     return fig
