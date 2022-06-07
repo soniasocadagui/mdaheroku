@@ -239,7 +239,7 @@ def disasters(w_countries):
         )],
 
         'layout':go.Layout(
-            title={'text': 'Number of Extreme temperature disasters: ' + (w_countries),
+            title={'text': 'Extreme Temp. Disasters: ' + (w_countries),
                    'y':0.93,
                    'x': 0.5,
                    'xanchor': 'center',
