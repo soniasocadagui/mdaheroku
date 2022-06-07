@@ -50,6 +50,14 @@ df_totalA['type'] = 'Real'
 
 prediction_data = pd.concat([prediction_data,df_totalA])
 
+dict_prod = {'Agriculture': "Agriculture",
+             'Cereals, Total': "Cereals",
+             'Food': "Food",
+             'Livestock': "Livestock",
+             'Milk, Total': "Milk",
+             'Vegetables and Fruit Primary': "Vegetables and Fruits"}
+
+prediction_data['item'] = prediction_data['item'].map(dict_prod)
 
 # creating the app
 app = dash.Dash(__name__,)
