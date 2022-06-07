@@ -195,7 +195,7 @@ app.layout = html.Div([
                          value = 'Agriculture',
                          placeholder='Select product',
                          options=[{'label': c, 'value': c}
-                                  for c in (df_totalA["item"].unique())], className='dcc_compon')       
+                                  for c in (prediction_data["item"].unique())], className='dcc_compon')
 
         ], className='create_container three columns'),
     
