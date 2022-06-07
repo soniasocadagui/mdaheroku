@@ -279,7 +279,7 @@ def temperature_heat(w_countries):
                     colorscale='viridis'))
 
     fig.update_layout(
-        title='Average variation per quarter')
+        title='Average variation per quarter: '+w_countries)
 
     return fig
 
@@ -300,7 +300,7 @@ def prediction_chart(w_countries, w_product):
                   })
 
     fig.update_yaxes(range=[40, 160])
-    fig.update_layout(title='Prediction vs. Real data', legend_title="")
+    fig.update_layout(title=w_product+' - '+w_countries+': Prediction vs. Real data', legend_title="")
 
     return fig
 
