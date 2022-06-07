@@ -42,22 +42,24 @@ prediction_data = pd.read_excel(predict_path)
 prediction_data = pd.melt(prediction_data, id_vars=["country", 'item'],var_name='year', value_name='gross_pin')
 prediction_data['type'] = 'Prediction'
 
-
-counttr = ["Austria", "Bulgaria", "France", "Germany", "Greece", "Hungary", "Italy", "Portugal", "Romania", "Spain", "Switzerland"]
-df_totalA = df_total.loc[df_total['country'].isin(counttr)].drop_duplicates().reset_index(drop=True)
-df_totalA = df_totalA.loc[df_totalA['year'] > 2000].drop_duplicates().reset_index(drop=True)
-df_totalA['type'] = 'Real'
-
-prediction_data = pd.concat([prediction_data,df_totalA])
-
 dict_prod = {'Agriculture': "Agriculture",
              'Cereals, Total': "Cereals",
              'Food': "Food",
              'Livestock': "Livestock",
              'Milk, Total': "Milk",
              'Vegetables and Fruit Primary': "Vegetables and Fruits"}
-
 prediction_data['item'] = prediction_data['item'].map(dict_prod)
+
+
+counttr = ["Austria", "Bulgaria", "France", "Germany", "Greece", "Hungary", "Italy", "Portugal", "Romania", "Spain", "Switzerland"]
+df_totalA = df_total.loc[df_total['country'].isin(counttr),
+                         ['country', 'item', 'year', 'gross_pin']].drop_duplicates().reset_index(drop=True)
+df_totalA = df_totalA.loc[df_totalA['year'] > 2000].drop_duplicates().reset_index(drop=True)
+df_totalA['type'] = 'Real'
+
+
+prediction_data = pd.concat([prediction_data,df_totalA])
+
 
 # creating the app
 app = dash.Dash(__name__,)
