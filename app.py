@@ -131,14 +131,17 @@ app.layout = html.Div([
                    )
         ], className='card_container three columns'),
         html.Div([
-            html.H6(children='Average temperature change',
+            html.H6(children='Average temperature change*',
                     style={'textAlign': 'center',
                             'color': 'white'}),
             html.P(f"{meanChange:,.1f}°C",
                     style={'textAlign': 'center',
                             'color': '#900C3F',
-                            'fontSize': 40})
-        
+                            'fontSize': 40}),
+            html.P("*From 1961 to 2020 worldwide",
+                   style={'textAlign': 'center',
+                          'color': 'white'}
+                   )
         ], className='card_container three columns'),
     # First panel
         html.Div([
