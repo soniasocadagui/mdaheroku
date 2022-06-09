@@ -39,7 +39,7 @@ countries = f.json()
 # predictions
 predict_path = "https://raw.githubusercontent.com/soniasocadagui/mdaheroku/main/dat/predictions.xlsx"
 prediction_data = pd.read_excel(predict_path)
-prediction_data = pd.melt(prediction_data, id_vars=["country", 'item'],var_name='year', value_name='gross_pin')
+prediction_data = pd.melt(prediction_data, id_vars=["country", 'item'],var_name='year', value_name='gross_per_capita_pin')
 prediction_data['type'] = 'Prediction'
 
 dict_prod = {'Agriculture': "Agriculture",
@@ -53,7 +53,7 @@ prediction_data['item'] = prediction_data['item'].map(dict_prod)
 
 counttr = ["Austria", "Bulgaria", "France", "Germany", "Greece", "Hungary", "Italy", "Portugal", "Romania", "Spain", "Switzerland"]
 df_totalA = df_total.loc[df_total['country'].isin(counttr),
-                         ['country', 'item', 'year', 'gross_pin']].drop_duplicates().reset_index(drop=True)
+                         ['country', 'item', 'year', 'gross_per_capita_pin']].drop_duplicates().reset_index(drop=True)
 df_totalA = df_totalA.loc[df_totalA['year'] > 2000].drop_duplicates().reset_index(drop=True)
 df_totalA = df_totalA.loc[df_totalA['year'] < 2019 ].drop_duplicates().reset_index(drop=True)
 df_totalA['type'] = 'Real'
@@ -301,11 +301,11 @@ def prediction_chart(w_countries, w_product):
     data_country = prediction_data.loc[prediction_data['country'] == w_countries].drop_duplicates().reset_index(drop=True)
     data_item = data_country[data_country['item'] == w_product]
 
-    fig = px.line(data_item, x='year', y='gross_pin', color='type', markers=True,
+    fig = px.line(data_item, x='year', y='gross_per_capita_pin', color='type', markers=True,
                   color_discrete_sequence=["#440154", "#21918c"],
                   labels={
                       "year": "Year",
-                      "gross_pin": "Gross PIN"
+                      "gross_per_capita_pin": "Gross per capita PIN"
                   })
 
     fig.update_yaxes(range=[40, 160])
@@ -349,10 +349,10 @@ def update_figure(selected_item):
 ###############################################
 
 def create_time_series_x(df_dev, title):
-    fig = px.line(df_dev, x='year', y='gross_pin', markers=True,
+    fig = px.line(df_dev, x='year', y='gross_per_capita_pin', markers=True,
                   labels={
                       "year": "Year",
-                      "gross_pin": "Gross PIN"
+                      "gross_per_capita_pin": "Gross per capita PIN"
                   })
 
     fig.update_traces(line_color="#440154")
@@ -363,12 +363,12 @@ def create_time_series_x(df_dev, title):
 
 def create_time_series_y(df_dev):
     fig = px.scatter(df_dev,
-                     x="gross_pin",
+                     x="gross_per_capita_pin",
                      y="max_temperature_change",
                      size="population",
                      size_max=10,
                      labels={
-                         "gross_pin": "Gross PIN",
+                         "gross_per_capita_pin": "Gross per capita PIN",
                          "max_temperature_change": "Max. Temperature Change"},
                      color="max_temperature_change",
                      color_continuous_scale="Viridis",
@@ -376,13 +376,13 @@ def create_time_series_y(df_dev):
                      )
 
     year = min(df_dev["year"])
-    fig.add_annotation(x=df_dev.loc[df_dev["year"] == year, "gross_pin"].values[0],
+    fig.add_annotation(x=df_dev.loc[df_dev["year"] == year, "gross_per_capita_pin"].values[0],
                        y=df_dev.loc[df_dev["year"] == year, "max_temperature_change"].values[0] - 0.15,
                        text=str(year),
                        showarrow=False)
 
     year = max(df_dev["year"])
-    fig.add_annotation(x=df_dev.loc[df_dev["year"] == year, "gross_pin"].values[0],
+    fig.add_annotation(x=df_dev.loc[df_dev["year"] == year, "gross_per_capita_pin"].values[0],
                        y=df_dev.loc[df_dev["year"] == year, "max_temperature_change"].values[0] - 0.15,
                        text=str(year),
                        showarrow=False)
