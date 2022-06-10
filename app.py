@@ -115,6 +115,10 @@ app.layout = html.Div([
             html.P("*Ecuador (1971)",
                    style={'textAlign': 'center',
                           'color': 'white'}
+                   ),
+            html.P("*Baseline climatology period: 1951 - 1980",
+                   style={'textAlign': 'center',
+                          'color': 'white'}
                    )
         ], className='card_container three columns'),
         html.Div([
@@ -126,6 +130,10 @@ app.layout = html.Div([
                        'color': '#DC143C',
                        'fontSize': 40}),
             html.P("*Finland (1990)",
+                   style={'textAlign': 'center',
+                          'color': 'white'}
+                   ),
+            html.P("*Baseline climatology period: 1951 - 1980",
                    style={'textAlign': 'center',
                           'color': 'white'}
                    )
